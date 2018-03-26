@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using ChessAppServer.Models;
-
+using Microsoft.AspNet.Identity;
 namespace ChessAppServer.Infrastructure
 {
     public class AppIdentityDbContext: IdentityDbContext<AppUser>
@@ -29,6 +29,30 @@ namespace ChessAppServer.Infrastructure
         public void PerformInitialSetup(AppIdentityDbContext context)
         {
             //init config
+            AppUserManager userMgr = new AppUserManager(new UserStore<AppUser>(context));
+            AppRoleManager roleMgr = new AppRoleManager(new RoleStore<AppRole>(context));
+
+            string roleName = "Administrators";
+            string userName = "admin";
+            string password = "Secret";
+            string email = "admin@example.com";
+            if (!roleMgr.RoleExists(roleName))
+            {
+                roleMgr.Create(new AppRole(roleName));
+            }
+            AppUser user = userMgr.FindByName(userName);
+            if (user == null)
+            {
+                userMgr.Create(new AppUser { UserName = userName, Email = email },
+                password);
+                user = userMgr.FindByName(userName);
+            }
+            if (!userMgr.IsInRole(user.Id, roleName))
+            {
+                userMgr.AddToRole(user.Id, roleName);
+            }
+
+
         }
     }
 }

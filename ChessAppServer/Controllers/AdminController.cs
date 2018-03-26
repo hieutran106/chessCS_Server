@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ChessAppServer.Controllers
 {
+    [Authorize(Roles = "Administrators")]
     public class AdminController : Controller
     {
         public ActionResult Index()
