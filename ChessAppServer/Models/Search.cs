@@ -47,13 +47,13 @@ namespace ChessCS
             hisEval = new Dictionary<string, int>();
         }
 
-        public static Move SearchMove(ChessBoard examinedBoard, bool player, bool debug)
+        public static Move SearchMove(ChessBoard examinedBoard, bool player,int difficuty, bool debug)
         {
             Search search = new Search();
             search.examinedBoard = examinedBoard.FastCopy();
             int color = (player == BLACK) ? 1 : -1;
             //Iterative Deepening Search
-            for (int maxDepth=1; maxDepth <= 6; maxDepth++)
+            for (int maxDepth=1; maxDepth <= difficuty; maxDepth++)
             {
                 search.MaxDepth = maxDepth;
                 search.Negamax(maxDepth, ALPHA, BETA, color, false, true);

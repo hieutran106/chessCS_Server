@@ -290,7 +290,7 @@ namespace ChessCS
         }
 
         
-        public Move GetAIMove()
+        public Move GetAIMove(int difficulty)
         {
             if (FullMove == 1 && ActiveColor == ChessBoard.BLACK)
             {
@@ -304,7 +304,7 @@ namespace ChessCS
             }
             else
             {
-                Move bestMove = Search.SearchMove(this, false,debug:false);
+                Move bestMove = Search.SearchMove(this, false, difficulty, debug:false);
                 Console.WriteLine("Best move:" + bestMove);
                 return bestMove;
             }
